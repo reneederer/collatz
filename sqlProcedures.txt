@@ -1,0 +1,39 @@
+CREATE PROCEDURE getCollatzRC(currentRow int, currentColumn int)
+ BEGIN
+ DECLARE v_rowIndex int;
+ DECLARE v_successorRowIndex int;
+ DECLARE v_columnIndex int;
+ DECLARE v_successorColumnIndex int;
+ declare i int;
+ set i =0;
+ SET v_successorRowIndex = 1;
+ SET v_successorColumnIndex = 1;
+ SET v_rowIndex = currentRow;
+ SET v_columnIndex = currentColumn;
+ select successorRowIndex into v_successorRowIndex from collatz where rowIndex = v_rowIndex and columnIndex = v_columnIndex;
+ select successorColumnIndex into v_successorColumnIndex from collatz where rowIndex = v_rowIndex and columnIndex = v_columnIndex;
+ create TEMPORARY  table IF NOT EXISTS tempCollatzTable as (select * from collatz where 1=0);
+ truncate table tempCollatzTable;
+ WHILE v_rowIndex IS NOT NULL and i < 30000 DO
+   INSERT INTO tempCollatzTable SELECT * FROM collatz WHERE rowIndex = v_rowIndex AND columnIndex = v_columnIndex;
+   SET v_rowIndex = v_successorRowIndex;
+   SET v_columnIndex = v_successorColumnIndex;
+   set i = i + 1;
+   select successorRowIndex into v_successorRowIndex from collatz where rowIndex = v_rowIndex and columnIndex = v_columnIndex;
+   select successorColumnIndex into v_successorColumnIndex from collatz where rowIndex = v_rowIndex and columnIndex = v_columnIndex;
+ END WHILE;
+ SELECT * FROM tempCollatzTable;
+ END //
+
+
+
+CREATE PROCEDURE getCollatzN(v_n int)
+ BEGIN
+ DECLARE v_rowIndex int;
+ DECLARE v_columnIndex int;
+ set v_rowIndex = 1;
+ set v_columnIndex = 1;
+ select rowIndex into v_rowIndex from collatz where n = v_n;
+ select columnIndex into v_columnIndex from collatz where n = v_n;
+ call getCollatzRC(v_rowIndex, v_columnIndex);
+ end //

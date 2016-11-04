@@ -1,0 +1,153 @@
+Definition.
+cut2(n) = if n is even then cut2(n/2)
+          if n is odd then n
+
+Definition.
+successor(n) = 
+    cut2(n*3+1)
+
+
+Definition.
+O = { n | n el N und n = 1 (mod 2) }
+
+
+
+Definition.
+rowIndex(n) = (n+3-n%3)/3
+
+Definition.
+    numberAtIndex(k) = k*3 - k%2-1
+
+Behauptung.
+numberAtIndex(k) = n <=> rowIndex(n) = k
+Beweis.
+     numberAtIndex(k) = n => rowIndex(n) = k
+        rowIndex(n) = k
+        rowIndex(numberAtIndex(k)) = k
+        rowIndex(k*3-k%2-1) = k
+        ((k*3-k%2-1)+3-(k*3-k%2-1)%3)/3 = k
+        k*3-k%2-1+3-(k*3-k%2-1)%3 = 3*k
+        -k%2-1+3-(k*3-k%2-1)%3 = 0
+        -k%2+2-(k*3-k%2-1)%3 = 0
+        -k%2+2-(k*3-k%2-1)%3 = 0
+        -k%2+2-(-k%2-1)%3 = 0
+        -k%2-(-k%2-1)%3 = -2
+        k%2+(-k%2-1)%3 = 2 //das ist noch korrekt!
+        Fall 1: k % 2 = 0
+            0-0-1%3 = 2
+            2=2
+        Fall 2: k % 2 = 1
+            1+(-1-1)%3 = 2
+            2=2
+
+     mit n el {x | x el N und x % 2 = 1 und x % 3 != 0
+     rowIndex(n) = k => numberAtIndex(k) = n
+        numberAtIndex(k) = n
+        numberAtIndex(rowIndex(n)) = n
+        numberAtIndex((n+3-n%3)/3) = n
+        ((n+3-n%3)/3)*3 - ((n+3-n%3)/3)%2 - 1 = n
+        n+3-n%3 - ((n+3-n%3)/3)%2 - 1 = n
+        n+2-n%3 - ((n+3-n%3)/3)%2 = n
+        2-n%3 - ((n+3-n%3)/3)%2 = 0
+        Fall 1: n % 3 = 0
+            Laut Vorraussetzung ist n % 3 != 0, Fall kann nicht eintreten.
+        Fall 2: n % 3 = 1
+            2-1-((n+3-1)/3)%2 = 0
+            ((n+3-1)/3)%2 = 1
+            ((n+2)/3)%2 = 1
+            Aus (n ist ungerade) folgt (n+2)/3 ist ungerade
+            ungerade % 2 = 1 => Richtig
+        Fall 3: n % 3 = 2
+            2-n%3 - ((n+3-n%3)/3)%2 = 0
+            2-2 - ((n+3-2)/3)%2 = 0
+            ((n+3-2)/3)%2 = 0
+            ((n+3-2)/3)%2 = 0
+            Aus (n ist ungerade) folgt (n+3-2)/3 ist gerade
+            gerade % 2 = 0 => Richtig
+
+
+
+
+Definition.
+S(c) ist die Menge aller n el N mit successor(n) = c
+
+
+
+
+
+Behauptung.
+Für alle n el N gilt:
+    successor(n) = successor (n*4+1)
+Beweis.
+    successor(n) = successor(n*4+1)
+    cut2 (n*3+1) = successor(n*4+1)
+    cut2 (n*3+1) = cut2((n*4+1)*3+1) 
+    cut2 (n*3+1) = cut2(n*12+4)
+    cut2 (n*3+1) = cut2(4*(n*3+1)) 
+    cut2 (n*3+1) = cut2(2*(n*3+1)) 
+    cut2 (n*3+1) = cut2(n*3+1) 
+
+
+Die Folge
+    f(n)
+        wenn n = 1 dann 1
+        sonst f(n-1)*4+1
+erzeugt die Zahlen 1, 5, 21, 85, 341 ... Sie ist im Folgenden immer wieder nützlich.
+
+Behauptung.
+Für alle n el N gilt:
+    f(n) = (4^n-1)/3
+        mit
+Beweis.
+    Der Beweis erfolgt durch vollständige Induktion.
+    n = 1:
+        f(1) = (4^1-1)/3
+        1 = 1
+    n+1:
+        f(n+1) = (4^(n+1)-1)/3
+            f(n+1) = f((n+1)-1)*4+1
+            f(n+1) = f(n)*4+1
+        f(n)*4+1 = (4^(n+1)-1)/3
+        f(n)*4 = (4^(n+1)-1)/3-1
+        f(n) = ((4^(n+1)-1)/3-1)/4
+        f(n) = ((4^n*4-1)/3-1)/4
+        f(n) = ((4^n*4-1)/3-1)/4
+        f(n) = (4^n*4/3-1/3-1)/4
+        f(n) = 4^n*4/12-1/12-1/4
+        f(n) = 4^n/3-3
+        f(n) = (4^n-1)/3
+
+Behauptung.
+    Zeile r hat als ersten Vorgaenger
+    1+(1+r%2)*(2*r-2)
+Beweis.
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
